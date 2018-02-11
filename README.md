@@ -19,3 +19,11 @@ clone '/source'
 ## Authors
 
 * **Naim Buru** - *Initial work* - [nb256](https://github.com/nb256)
+
+
+packages about input auto-completion:
+* https://www.npmjs.com/package/react-autosuggest
+* https://www.npmjs.com/package/react-autocomplete
+* https://semantic-ui.com/modules/search.html
+* http://www.oaa-accessibility.org/examplep/combobox5/
+* https://github.com/JedWatson/react-select
