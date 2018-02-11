@@ -18,7 +18,7 @@ const ItemsToSearch = [
     { name: 'The Quantum Irregulars', genre: 'Scifi' },
     { name: 'Frontier Rats - Quest for Ratopia', genre: 'Scifi' },
     { name: 'The Boy Who Dreamt of a Thousand Horses', genre: 'Scifi' },
-    { name: 'ANIMALYPSE', genre: 'Scifi' },
+    { img: 'https://storage.googleapis.com/rocky-production/storycovers/small_square_4d0555bb73308c8cf84cb74f2aaec244.jpg', name: 'ANIMALYPSE', genre: 'Scifi' },
     { name: 'They Who from the Heavens Came (The Wisdom, #1)', genre: 'Scifi' },
     { name: 'Death Leaders (Book 1)', genre: 'Scifi' },
     { name: 'Book Two: The Moon Will Fall', genre: 'Scifi' },
@@ -57,9 +57,11 @@ const SearchInput = styled.input`
 const ResultsContainer = styled.div`
     flex: 1;
     overflox-y: scroll;
+    display: flex;
+    flex-direction: column;
 `;
 const ResultItem = styled.div`
-    height: 100px;
+    max-width: 450px;
     min-width: 35vw;
     @media (max-width: 550px) {
         min-width: 75%;
@@ -74,10 +76,16 @@ const ResultItem = styled.div`
     &:active{
         background-color: rgb(20,142,130);
     }
+    &:hover{
+        transform: translate(30px, 0);
+    }
+    transition: 0.3s;
     color: #222;
+    border: 1px solid rgb(120,142,130);
+    cursor: pointer;
 `;
 const SelectedResultItem = ResultItem.extend`
-    background-color: rgb(20,142,130);
+    background: linear-gradient(rgba(20,142,130,1), rgba(80,142,130,1));;
     &:active{
         background-color: white;
     }
@@ -103,6 +111,7 @@ const CancelIcon = styled.img`
     }
     position: relative;
     right: 30px;
+    cursor: pointer;
 `;
 const CancelIconSpace = styled.div`
     margin: 10px;
@@ -134,17 +143,16 @@ export default class SearchComponent extends Component {
             selectedItem: 0,
           });
     } else {
-        const searcher = new FuzzySearch(ItemsToSearch, ['name', 'genre'], {
-        caseSensitive: false,
-        });
+        const searcher = new FuzzySearch(ItemsToSearch, ['name', 'genre']);
         const result = searcher.search(e.target.value);
 
         const resultCache = {};
         resultCache[e.target.value] = result;
         const newResultCache = Object.assign({}, this.state.resultCache, resultCache);
-        if (this.state.resultCache.length > 200) {
+        // TODO Find a better way to reset cache
+        if (Object.keys(this.state.resultCache).length > 200) {
             this.setState({
-                resultCache: [],
+                resultCache: {},
             });
         }
         this.setState({
@@ -170,15 +178,17 @@ export default class SearchComponent extends Component {
   inputKeyDown(e) {
     // keyboard shortcuts to navigate in results for desktop users
     switch (e.key) {
-        case 'ArrowDown': {
+        case 'ArrowDown':
+        case 'ArrowRight': {
             this.setState({
                 selectedItem: (this.state.selectedItem + 1) % this.state.resultItems.length,
             });
             break;
         }
-        case 'ArrowUp': {
+        case 'ArrowUp':
+        case 'ArrowLeft': {
             this.setState({
-                selectedItem: (this.state.selectedItem - 1) === -1 ? this.state.resultItems.length - 1 : (this.state.selectedItem - 1),
+                selectedItem: (this.state.selectedItem - 1) === -1 ? (this.state.resultItems.length - 1) : (this.state.selectedItem - 1),
             });
             break;
         }
@@ -196,7 +206,7 @@ export default class SearchComponent extends Component {
             break;
         }
         default:
-            console.log('wrong button');
+            console.log('doing nothing here');
     }
     if (e.key === 'ArrowDown') {
         this.setState({
@@ -209,6 +219,7 @@ export default class SearchComponent extends Component {
     } else if (e.key === 'Enter') {
         this.setState({
             searchText: this.state.resultItems[this.state.selectedItem].name,
+            resultItems: [],
         });
     } else if (e.key === 'Escape') {
         this.setState({
@@ -242,7 +253,7 @@ export default class SearchComponent extends Component {
                 }
                 if (index === this.state.selectedItem) {
                     return(
-                        <SelectedResultItem key={item.name} onClick={() => this.setState({searchText: item.name})}>
+                        <SelectedResultItem key={item.name} onClick={() => this.setState({searchText: item.name, resultItems: []})}>
                             <ResultImage src={imageSource} />
                             <ResultText>
                                 {item.name}
@@ -254,7 +265,7 @@ export default class SearchComponent extends Component {
                     );
                 }
                 return(
-                    <ResultItem key={item.name} onClick={() => this.setState({selectedItem: index, searchText: item.name})}>
+                    <ResultItem key={item.name} onClick={() => this.setState({selectedItem: index, searchText: item.name, resultItems: []})}>
                         <ResultImage src={imageSource} />
                         <ResultText>
                             {item.name}
