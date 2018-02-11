@@ -21,7 +21,8 @@ clone '/source'
 * **Naim Buru** - *Initial work* - [nb256](https://github.com/nb256)
 
 
-packages about input auto-completion:
+## Some packages related input auto-completion:
+
 * https://www.npmjs.com/package/react-autosuggest
 * https://www.npmjs.com/package/react-autocomplete
 * https://semantic-ui.com/modules/search.html
