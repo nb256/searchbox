@@ -85,11 +85,11 @@ const ResultItem = styled.div`
     cursor: pointer;
 `;
 const SelectedResultItem = ResultItem.extend`
-    background: linear-gradient(rgba(20,142,130,1), rgba(80,142,130,1));;
+    background: linear-gradient(rgba(20,142,130,1), rgba(80,142,130,1));
+    color: white;
     &:active{
         background-color: white;
     }
-    color: white;
 `;
 const ResultText = styled.div`
     flex: 1;
