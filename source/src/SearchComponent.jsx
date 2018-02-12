@@ -195,6 +195,7 @@ export default class SearchComponent extends Component {
         case 'Enter': {
             this.setState({
                 searchText: this.state.resultItems[this.state.selectedItem].name,
+                resultItems: [],
             });
             break;
         }
@@ -207,25 +208,6 @@ export default class SearchComponent extends Component {
         }
         default:
             console.log('doing nothing here');
-    }
-    if (e.key === 'ArrowDown') {
-        this.setState({
-            selectedItem: (this.state.selectedItem + 1) % this.state.resultItems.length,
-        });
-    } else if (e.key === 'ArrowUp') {
-        this.setState({
-            selectedItem: (this.state.selectedItem - 1) === -1 ? this.state.resultItems.length - 1 : (this.state.selectedItem - 1),
-        });
-    } else if (e.key === 'Enter') {
-        this.setState({
-            searchText: this.state.resultItems[this.state.selectedItem].name,
-            resultItems: [],
-        });
-    } else if (e.key === 'Escape') {
-        this.setState({
-            searchText: '',
-            resultItems: [],
-        });
     }
   }
   render() {
