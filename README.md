@@ -1,7 +1,7 @@
 # Search box implementation with react 
 
 * It caches previous searches
-![alt Cache](https://raw.githubusercontent.com/nb256/nb256.github.io/master/cache.png)
+![alt Cache](https://raw.githubusercontent.com/nb256/searchbox/master/cache.png)
 
 * Use ArrowUp, ArrowDown, Escape and Enter to navigate through items.
 
@@ -13,7 +13,7 @@ clone '/source'
 2) yarn start
 ```
 
-[LIVE DEMO](https://nb256.github.io/)
+[LIVE DEMO](https://nb256.github.io/searchbox/)
 
 
 ## Authors
